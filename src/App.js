@@ -1,23 +1,35 @@
 import logo from './logo.svg';
 import './App.css';
+import {useState} from "react";
+import TodoForm from "./TodoForm";
 
 function App() {
+  const [todo, setTodo] = useState(
+    [
+
+    ]
+  )
+  const [newTodo, setNewTodo] = useState('')
+  const onChangeNewTodo = (e) => {
+    setNewTodo(e.target.value);
+  }
+  const onSubmit = (newTodo) => (e) => {
+    e.preventDefault();
+    setTodo([{title: newTodo, complete:false, id:Math.random()}])
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {todo.length === 0 ? (
+        <>
+          <div>할 일 목록을 입력하세요</div>
+          <TodoForm onChangeNewTodo={onChangeNewTodo} newTodo={newTodo} onSubmit={onSubmit}/>
+        </>
+      ) : (
+        <>
+          {todo.map((t) => (<div key={t.id}>{t.title}</div>))}
+          <TodoForm onChangeNewTodo={onChangeNewTodo} newTodo={newTodo} onSubmit={onSubmit}/>
+        </>
+      )}
     </div>
   );
 }
