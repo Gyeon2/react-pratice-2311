@@ -1,4 +1,16 @@
-export default function TodoForm({onSubmit, newTodo, onChangeNewTodo}) { //prop
+import {useState} from "react";
+
+export default function TodoForm({onSubmit : onParentSubmit}) { //prop
+
+  const [newTodo, setNewTodo] = useState('')
+  const onChangeNewTodo = (e) => {
+    setNewTodo(e.target.value);
+  }
+  const onSubmit = (e) => {
+    e.preventDefault();
+    onParentSubmit(newTodo);
+  }
+
   return (
     <form onSubmit={onSubmit}>
     <input type="text" value={newTodo} onChange={onChangeNewTodo}/>
